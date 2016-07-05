@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<module>
+    <id>VirtoCommerce.Cache</id>
+    <version>1.0.0</version>
+    <platformVersion>2.11.0</platformVersion>
+    <dependencies>
+        <dependency id="VirtoCommerce.Core" version="2.14.0" />
+    </dependencies>
+
+    <title>Cache module</title>
+    <description>Smart caching all services from VirtoCommerce.Domain services</description>
+    <authors>
+        <author>Virto Commerce</author>
+    </authors>
+    <owners>
+        <owner>Virto Commerce</owner>
+    </owners>
+    <projectUrl>http://virtocommerce.com/</projectUrl>
+    <iconUrl></iconUrl>
+    <releaseNotes>First version.</releaseNotes>
+    <copyright>Copyright © 2011-2016 Virto Commerce. All rights reserved</copyright>
+    <tags>avalara tax</tags>
+
+    <assemblyFile>VirtoCommerce.CacheModule.Web.dll</assemblyFile>
+    <moduleType>VirtoCommerce.CacheModule.Web.Module, VirtoCommerce.CacheModule.Web</moduleType>
+
+    <scripts>
+    </scripts>
+
+    <settings>     
+    </settings>
+
+    <permissions>
+        <group name="Cache">
+            <permission id="cache:reset" name="Reset cache"/>
+        </group>
+    </permissions>
+</module>
