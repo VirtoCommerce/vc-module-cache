@@ -11,7 +11,7 @@ Installing the module:
 * Manually: download module zip package from https://github.com/VirtoCommerce/vc-module-cache/releases. In VC Manager go to Configuration -> Modules -> Advanced -> upload module package -> Install.
 
 # Settings
-* **Cache.Enable** - flag to enable the caching of all main ecommerce domain services 
+* **Cache.Enable** - flag to enable the caching of all main ecommerce domain services. Default value 'True'.
 
 # License
 Copyright (c) Virtosoftware Ltd.  All rights reserved.
