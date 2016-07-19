@@ -5,32 +5,45 @@
     <platformVersion>2.11.0</platformVersion>
     <dependencies>
         <dependency id="VirtoCommerce.Core" version="2.14.0" />
+		<dependency id="VirtoCommerce.Store" version="2.11.0" />
+		<dependency id="VirtoCommerce.Catalog" version="2.11.0" />
+		<dependency id="VirtoCommerce.Customer" version="2.11.0" />
     </dependencies>
 
-    <title>Cache module</title>
-    <description>Smart caching all services from VirtoCommerce.Domain services</description>
+    <title>Smart caching module</title>
+    <description>Smart caching for main domain services such as Catalog, Customer, Store.</description>
     <authors>
         <author>Virto Commerce</author>
     </authors>
     <owners>
         <owner>Virto Commerce</owner>
     </owners>
-    <projectUrl>http://virtocommerce.com/</projectUrl>
+    <projectUrl>https://github.com/VirtoCommerce/vc-module-cache</projectUrl>
     <iconUrl></iconUrl>
     <releaseNotes>First version.</releaseNotes>
     <copyright>Copyright © 2011-2016 Virto Commerce. All rights reserved</copyright>
-    <tags>avalara tax</tags>
+    <tags>cache</tags>
 
     <assemblyFile>VirtoCommerce.CacheModule.Web.dll</assemblyFile>
     <moduleType>VirtoCommerce.CacheModule.Web.Module, VirtoCommerce.CacheModule.Web</moduleType>
 
     <scripts>
+		<directory virtualPath="$/Scripts" searchPattern="*.js" searchSubdirectories="true" />
     </scripts>
 
-    <settings>     
-    </settings>
+	<settings>
+		<group name="Cache|General">
+			<setting>
+				<name>Cache.Enable</name>
+				<valueType>boolean</valueType>
+				<defaultValue>true</defaultValue>
+				<title>Enable smart caching</title>
+				<description>For next  domain services: Catalog, Store, Customer</description>			
+			</setting>
+		</group>
+	</settings>
 
-    <permissions>
+	<permissions>
         <group name="Cache">
             <permission id="cache:reset" name="Reset cache"/>
         </group>
