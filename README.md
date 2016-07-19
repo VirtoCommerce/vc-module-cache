@@ -1,5 +1,5 @@
 # VirtoCommerce.Cache
-VirtoCommerce.Cache represent **Smart** caching functionality. **Smart** -  mean automatic invalidation already cached data when  object  changed. This module cached all frequently used ecommerce Domain services.
+VirtoCommerce.Cache represent **Smart** caching functionality for main eCommerce domain services such as Catalog, Store, Customers. **Smart** -  mean automatic invalidation already cached data when  object  changed. 
 
 And also add Storefront cache reset command to Store details in Store.Module
 
@@ -11,7 +11,7 @@ Installing the module:
 * Manually: download module zip package from https://github.com/VirtoCommerce/vc-module-cache/releases. In VC Manager go to Configuration -> Modules -> Advanced -> upload module package -> Install.
 
 # Settings
-## Cache.Enable - flag enabled the smart cache for domain services call
+## Cache.Enable - flag to enable the caching of all main ecommerce domain services 
 
 # License
 Copyright (c) Virtosoftware Ltd.  All rights reserved.
