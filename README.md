@@ -1,5 +1,5 @@
 # VirtoCommerce.Cache
-VirtoCommerce.Cache represent 'Smart' caching functionality. **Smart** -  mean automatic invalidation already cached data when  object  changed. This module cached all frequently used ecommerce Domain services.
+VirtoCommerce.Cache represent **Smart** caching functionality. **Smart** -  mean automatic invalidation already cached data when  object  changed. This module cached all frequently used ecommerce Domain services.
 
 And also add Storefront cache reset command to Store details in Store.Module
 
