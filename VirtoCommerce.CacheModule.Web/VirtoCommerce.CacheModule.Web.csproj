@@ -125,6 +125,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\logoVC.png" />
     <Content Include="packages.config" />
     <Content Include="module.manifest" />
     <None Include="Web.Debug.config">
