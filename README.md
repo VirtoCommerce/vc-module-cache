@@ -1,7 +1,7 @@
 # VirtoCommerce.Cache
 VirtoCommerce.Cache represent **Smart** caching functionality for main eCommerce domain services such as Catalog, Store, Customers. **Smart** -  mean automatic invalidation already cached data when  object  changed. 
 
-Also adds a command to reset storefront cache to store detail blade in StoreModule.
+Also adds a 'Reset cache' command to reset storefront cache in store detail blade.
 ![image](https://cloud.githubusercontent.com/assets/7566324/16956406/a49e70de-4dd8-11e6-897c-d1143afcd365.png)
 
 # Installation
