@@ -7,12 +7,12 @@ if (AppDependencies != undefined) {
 
 angular.module(moduleName, [])
 .run(
-  ['platformWebApp.toolbarService', '$window',
-	function (toolbarService, $window) {
+  ['platformWebApp.toolbarService', '$window', '$translate',
+	function (toolbarService, $window, $translate) {
 
-		// register reset store cache command
+		// register reset storefront cache command
 		var resetCacheCommand = {
-			name: "reset cache",
+			name: "cache.reset-cache-command",
 			icon: 'fa fa-eraser',
 			executeMethod: function (blade) {
 				var store = blade.currentEntity;
@@ -24,7 +24,9 @@ angular.module(moduleName, [])
 				}
 				else
 				{
-					alert("Please set url or secure url for store");
+					$translate('cache.store-url-empty-info').then(function (message) {
+						alert(message);
+					});
 				}
 			},
 			canExecuteMethod: function () { return true; },

@@ -26,7 +26,9 @@
 
     <assemblyFile>VirtoCommerce.CacheModule.Web.dll</assemblyFile>
     <moduleType>VirtoCommerce.CacheModule.Web.Module, VirtoCommerce.CacheModule.Web</moduleType>
-
+	<styles>
+		<directory virtualPath="$/Content" searchPattern="*.css" searchSubdirectories="true" />
+	</styles>
     <scripts>
 		<directory virtualPath="$/Scripts" searchPattern="*.js" searchSubdirectories="true" />
     </scripts>

@@ -128,6 +128,7 @@
     <Content Include="Content\logoVC.png" />
     <Content Include="packages.config" />
     <Content Include="module.manifest" />
+    <Content Include="Localizations\en.VirtoCommerce.Cache.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
