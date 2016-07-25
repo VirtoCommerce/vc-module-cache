@@ -25,7 +25,9 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
         #region IStoreService Members
         public Store Create(Store store)
         {
-            return _storeService.Create(store);
+            var retVal = _storeService.Create(store);
+            _cacheManager.ClearRegion(_regionName);
+            return retVal;
         }
 
         public void Delete(string[] ids)
