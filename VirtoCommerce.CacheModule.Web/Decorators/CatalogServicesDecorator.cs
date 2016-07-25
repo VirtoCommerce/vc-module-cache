@@ -144,6 +144,12 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
             return retVal;
         }
 
+        void IPropertyService.Delete(string[] propertyIds)
+        {
+            _propertyService.Delete(propertyIds);
+            _cacheManager.ClearRegion(_regionName);
+        }
+
         #endregion
 
         #region ICategoryService Members
@@ -178,6 +184,12 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
             return retVal;
         }
 
+        void ICategoryService.Delete(string[] categoryIds)
+        {
+            _categoryService.Delete(categoryIds);
+            _cacheManager.ClearRegion(_regionName);
+        }
+
         public void Update(Category[] categories)
         {
              _categoryService.Update(categories);
@@ -193,6 +205,12 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
                 return _catalogService.GetCatalogsList();
             });
             return retVal;
+        }
+
+        void ICatalogService.Delete(string[] catalogIds)
+        {
+            _catalogService.Delete(catalogIds);
+            _cacheManager.ClearRegion(_regionName);           
         }
 
         Catalog ICatalogService.GetById(string catalogId)
