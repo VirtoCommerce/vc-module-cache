@@ -11,7 +11,7 @@ using VirtoCommerce.CacheModule.Web.Extensions;
 
 namespace VirtoCommerce.CacheModule.Web.Decorators
 {
-    internal sealed class StoreServicesDecorator : IStoreService
+    internal sealed class StoreServicesDecorator : ICachedServiceDecorator, IStoreService
     {
         private readonly CacheManagerAdaptor _cacheManager;
         private readonly IStoreService _storeService;
@@ -21,19 +21,24 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
             _storeService = storeService;
             _cacheManager = cacheManager;
         }
-
+        #region ICachedServiceDecorator
+        public void ClearCache()
+        {
+            _cacheManager.ClearRegion(_regionName);
+        }
+        #endregion
         #region IStoreService Members
         public Store Create(Store store)
         {
             var retVal = _storeService.Create(store);
-            _cacheManager.ClearRegion(_regionName);
+            ClearCache();
             return retVal;
         }
 
         public void Delete(string[] ids)
         {
             _storeService.Delete(ids);
-            _cacheManager.ClearRegion(_regionName);
+            ClearCache();
         }
 
         public Store GetById(string id)
@@ -71,7 +76,7 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
         public void Update(Store[] stores)
         {         
             _storeService.Update(stores);
-            _cacheManager.ClearRegion(_regionName);
+            ClearCache();
         } 
         #endregion
 

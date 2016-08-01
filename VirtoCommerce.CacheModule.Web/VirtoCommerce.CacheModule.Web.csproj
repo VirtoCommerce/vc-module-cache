@@ -145,6 +145,8 @@
   <ItemGroup>
     <Compile Include="Decorators\CacheManagerAdaptor.cs" />
     <Compile Include="Decorators\CatalogServicesDecorator.cs" />
+    <Compile Include="Decorators\CommerceServiceDecorator.cs" />
+    <Compile Include="Decorators\ICachedServiceDecorator.cs" />
     <Compile Include="Decorators\MemberServicesDecorator.cs" />
     <Compile Include="Decorators\StoreServicesDecorator.cs" />
     <Compile Include="Extensions\SerializationExtension.cs" />

@@ -8,7 +8,7 @@ using VirtoCommerce.Domain.Catalog.Services;
 
 namespace VirtoCommerce.CacheModule.Web.Decorators
 {
-    internal sealed class CatalogServicesDecorator : IItemService, ICatalogSearchService, IPropertyService, ICategoryService, ICatalogService
+    internal sealed class CatalogServicesDecorator : ICachedServiceDecorator, IItemService, ICatalogSearchService, IPropertyService, ICategoryService, ICatalogService
     {
         private readonly CacheManagerAdaptor _cacheManager;
         private readonly IItemService _itemService;
@@ -27,25 +27,30 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
             _categoryService = categoryService;
             _catalogService = catalogService;
         }
-
+        #region ICachedServiceDecorator
+        public void ClearCache()
+        {
+            _cacheManager.ClearRegion(_regionName);
+        }
+        #endregion
         #region IItemService members
         public void Create(CatalogProduct[] items)
         {
             _itemService.Create(items);
-            _cacheManager.ClearRegion(_regionName);
+            ClearCache();
         }
 
         public CatalogProduct Create(CatalogProduct item)
         {
             var retVal =  _itemService.Create(item);
-            _cacheManager.ClearRegion(_regionName);
+            ClearCache();
             return retVal;
         }
 
         public void Delete(string[] itemIds)
         {
             _itemService.Delete(itemIds);
-            _cacheManager.ClearRegion(_regionName);
+            ClearCache();
         }
 
         public CatalogProduct GetById(string itemId, ItemResponseGroup respGroup, string catalogId = null)
@@ -69,7 +74,7 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
         public void Update(CatalogProduct[] items)
         {
             _itemService.Update(items);
-            _cacheManager.ClearRegion(_regionName);
+            ClearCache();
         }
         #endregion
 
@@ -107,14 +112,14 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
         public Property Create(Property property)
         {
             var retVal = _propertyService.Create(property);
-            _cacheManager.ClearRegion(_regionName);
+            ClearCache();
             return retVal;
         }
 
         public void Update(Property[] properties)
         {
             _propertyService.Update(properties);
-            _cacheManager.ClearRegion(_regionName);
+            ClearCache();
         }
 
         public Property[] GetAllCatalogProperties(string catalogId)
@@ -147,7 +152,7 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
         void IPropertyService.Delete(string[] propertyIds)
         {
             _propertyService.Delete(propertyIds);
-            _cacheManager.ClearRegion(_regionName);
+            ClearCache();
         }
 
         #endregion
@@ -174,26 +179,26 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
         public void Create(Category[] categories)
         {
             _categoryService.Create(categories);
-            _cacheManager.ClearRegion(_regionName);
+            ClearCache();
         }
 
         public Category Create(Category category)
         {
             var retVal = _categoryService.Create(category);
-            _cacheManager.ClearRegion(_regionName);
+            ClearCache();
             return retVal;
         }
 
         void ICategoryService.Delete(string[] categoryIds)
         {
             _categoryService.Delete(categoryIds);
-            _cacheManager.ClearRegion(_regionName);
+            ClearCache();
         }
 
         public void Update(Category[] categories)
         {
              _categoryService.Update(categories);
-            _cacheManager.ClearRegion(_regionName);
+            ClearCache();
         }
         #endregion
 
@@ -210,7 +215,7 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
         void ICatalogService.Delete(string[] catalogIds)
         {
             _catalogService.Delete(catalogIds);
-            _cacheManager.ClearRegion(_regionName);           
+            ClearCache();
         }
 
         Catalog ICatalogService.GetById(string catalogId)
@@ -225,14 +230,14 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
         public Catalog Create(Catalog catalog)
         {
             var retVal = _catalogService.Create(catalog);
-            _cacheManager.ClearRegion(_regionName);
+            ClearCache();
             return retVal;
         }
 
         public void Update(Catalog[] catalogs)
         {
             _catalogService.Update(catalogs);
-            _cacheManager.ClearRegion(_regionName);
+            ClearCache();
         } 
         #endregion
 

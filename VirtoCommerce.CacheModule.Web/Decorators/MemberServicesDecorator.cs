@@ -9,7 +9,7 @@ using VirtoCommerce.Platform.Core.Common;
 
 namespace VirtoCommerce.CacheModule.Web.Decorators
 {
-    internal sealed class MemberServicesDecorator : IMemberService, IMemberSearchService
+    internal sealed class MemberServicesDecorator : ICachedServiceDecorator, IMemberService, IMemberSearchService
     {
         private IMemberService _memberService;
         private IMemberSearchService _memberSearchService;
@@ -22,18 +22,23 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
             _memberSearchService = memberSearchService;
             _cacheManager = cacheManager;
         }
-
+        #region ICachedServiceDecorator
+        public void ClearCache()
+        {
+            _cacheManager.ClearRegion(_regionName);
+        }
+        #endregion
         #region IMemberService
         public void CreateOrUpdate(Member[] members)
         {
             _memberService.CreateOrUpdate(members);
-            _cacheManager.ClearRegion(_regionName);
+            ClearCache();
         }
 
         public void Delete(string[] ids, string[] memberTypes = null)
         {
             _memberService.Delete(ids, memberTypes);
-            _cacheManager.ClearRegion(_regionName);
+            ClearCache();
         }
 
         public Member[] GetByIds(string[] memberIds, string[] memberTypes = null)
