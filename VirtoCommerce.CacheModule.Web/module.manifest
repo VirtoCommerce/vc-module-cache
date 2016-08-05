@@ -9,7 +9,6 @@
 		<dependency id="VirtoCommerce.Catalog" version="2.11.0" />
 		<dependency id="VirtoCommerce.Customer" version="2.11.0" />
     </dependencies>
-
     <title>Smart caching module</title>
     <description>Smart caching for main domain services such as Catalog, Customer, Store.</description>
     <authors>
