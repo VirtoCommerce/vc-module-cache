@@ -207,7 +207,7 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
         {
             var cacheKey = GetCacheKey("CatalogService.GetCatalogsList");
             var retVal = _cacheManager.Get(cacheKey, _regionName, () => {
-                return _catalogService.GetCatalogsList();
+                return _catalogService.GetCatalogsList().ToArray();
             });
             return retVal;
         }
