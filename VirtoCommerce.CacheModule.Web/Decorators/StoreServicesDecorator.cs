@@ -43,7 +43,7 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
 
         public Store GetById(string id)
         {
-            var cacheKey = GetCacheKey(id);
+            var cacheKey = GetCacheKey("StoreService.GetById", id);
             var retVal = _cacheManager.Get(cacheKey, _regionName, () => {
                 return _storeService.GetById(id);
             });
@@ -52,7 +52,7 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
 
         public Store[] GetByIds(string[] ids)
         {
-            var cacheKey = GetCacheKey(ids);
+            var cacheKey = GetCacheKey("StoreService.GetByIds", string.Join(",", ids));
             var retVal = _cacheManager.Get(cacheKey, _regionName, () => {
                 return _storeService.GetByIds(ids);
             });
@@ -66,7 +66,7 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
 
         public SearchResult SearchStores(SearchCriteria criteria)
         {
-            var cacheKey = GetCacheKey(criteria.ToJson().GetHashCode().ToString());
+            var cacheKey = GetCacheKey("StoreService.SearchStores", criteria.ToJson().GetHashCode().ToString());
             var retVal = _cacheManager.Get(cacheKey, _regionName, () => {
                 return _storeService.SearchStores(criteria);
             });
