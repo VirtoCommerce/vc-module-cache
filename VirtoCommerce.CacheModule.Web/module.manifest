@@ -1,50 +1,51 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <module>
     <id>VirtoCommerce.Cache</id>
-    <version>1.0.5</version>
-    <platformVersion>2.11.0</platformVersion>
+    <version>1.1.0</version>
+    <platformVersion>2.12.0</platformVersion>
     <dependencies>
-        <dependency id="VirtoCommerce.Core" version="2.17.0" />
-		<dependency id="VirtoCommerce.Store" version="2.11.0" />
-		<dependency id="VirtoCommerce.Catalog" version="2.11.0" />
-		<dependency id="VirtoCommerce.Customer" version="2.11.0" />
+        <dependency id="VirtoCommerce.Core" version="2.20.0" />
+        <dependency id="VirtoCommerce.Store" version="2.13.0" />
+        <dependency id="VirtoCommerce.Catalog" version="2.16.0" />
+        <dependency id="VirtoCommerce.Customer" version="2.13.0" />
     </dependencies>
     <title>Smart caching module</title>
     <description>Smart caching for main domain services such as Catalog, Customer, Store.</description>
     <authors>
-        <author>Virto Commerce</author>
+        <author>Eugeney Tatarincev</author>
+        <author>Artem Dudarev</author>
     </authors>
     <owners>
         <owner>Virto Commerce</owner>
     </owners>
     <projectUrl>https://github.com/VirtoCommerce/vc-module-cache</projectUrl>
-	<iconUrl>Modules/$(VirtoCommerce.Cache)/Content/logoVC.png</iconUrl>
+    <iconUrl>Modules/$(VirtoCommerce.Cache)/Content/logoVC.png</iconUrl>
     <releaseNotes>First version.</releaseNotes>
     <copyright>Copyright © 2011-2016 Virto Commerce. All rights reserved</copyright>
     <tags>cache</tags>
 
     <assemblyFile>VirtoCommerce.CacheModule.Web.dll</assemblyFile>
     <moduleType>VirtoCommerce.CacheModule.Web.Module, VirtoCommerce.CacheModule.Web</moduleType>
-	<styles>
-		<directory virtualPath="$/Content" searchPattern="*.css" searchSubdirectories="true" />
-	</styles>
+    <styles>
+        <directory virtualPath="$/Content" searchPattern="*.css" searchSubdirectories="true" />
+    </styles>
     <scripts>
-		<directory virtualPath="$/Scripts" searchPattern="*.js" searchSubdirectories="true" />
+        <directory virtualPath="$/Scripts" searchPattern="*.js" searchSubdirectories="true" />
     </scripts>
 
-	<settings>
-		<group name="Cache|General">
-			<setting>
-				<name>Cache.Enable</name>
-				<valueType>boolean</valueType>
-				<defaultValue>true</defaultValue>
-				<title>Enable smart caching</title>
-				<description>For next  domain services: Catalog, Store, Customer</description>			
-			</setting>
-		</group>
-	</settings>
+    <settings>
+        <group name="Cache|General">
+            <setting>
+                <name>Cache.Enable</name>
+                <valueType>boolean</valueType>
+                <defaultValue>true</defaultValue>
+                <title>Enable smart caching</title>
+                <description>For next  domain services: Catalog, Store, Customer</description>
+            </setting>
+        </group>
+    </settings>
 
-	<permissions>
+    <permissions>
         <group name="Cache">
             <permission id="cache:reset" name="Reset cache"/>
         </group>
