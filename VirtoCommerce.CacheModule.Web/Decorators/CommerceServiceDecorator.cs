@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using VirtoCommerce.CacheModule.Web.Services;
 using VirtoCommerce.Domain.Commerce.Model;
 using VirtoCommerce.Domain.Commerce.Services;
 
@@ -9,27 +8,32 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
 {
     internal sealed class CommerceServiceDecorator : ICachedServiceDecorator, ICommerceService
     {
-        private readonly CacheManagerAdaptor _cacheManager;
         private readonly ICommerceService _commerceService;
-        IEnumerable<ICachedServiceDecorator> _allSeoInfoRelatedDecorators;
-        public CommerceServiceDecorator(ICommerceService commerceService, CacheManagerAdaptor cacheManager, IEnumerable<ICachedServiceDecorator> allSeoInfoRelatedDecorators)
+        private readonly IList<ICachedServiceDecorator> _allSeoInfoRelatedDecorators;
+        private readonly IChangesTrackingService _changesTrackingService;
+
+        public CommerceServiceDecorator(ICommerceService commerceService, IList<ICachedServiceDecorator> allSeoInfoRelatedDecorators, IChangesTrackingService changesTrackingService)
         {
             _commerceService = commerceService;
-            _cacheManager = cacheManager;
             _allSeoInfoRelatedDecorators = allSeoInfoRelatedDecorators;
+            _changesTrackingService = changesTrackingService;
         }
+
         #region ICachedServiceDecorator
         public void ClearCache()
         {
-            if(_allSeoInfoRelatedDecorators != null)
+            if (_allSeoInfoRelatedDecorators != null)
             {
-                foreach(var decorator in _allSeoInfoRelatedDecorators)
+                foreach (var decorator in _allSeoInfoRelatedDecorators)
                 {
                     decorator.ClearCache();
                 }
             }
+
+            _changesTrackingService.Update(null, DateTime.UtcNow);
         }
         #endregion
+
         #region ICommerceService Members
         public void DeleteCurrencies(string[] codes)
         {
@@ -44,7 +48,7 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
         public void DeletePackageTypes(string[] ids)
         {
             _commerceService.DeletePackageTypes(ids);
-        }     
+        }
 
         public IEnumerable<Currency> GetAllCurrencies()
         {
@@ -83,7 +87,7 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
 
         public FulfillmentCenter UpsertFulfillmentCenter(FulfillmentCenter fullfilmentCenter)
         {
-           return _commerceService.UpsertFulfillmentCenter(fullfilmentCenter);
+            return _commerceService.UpsertFulfillmentCenter(fullfilmentCenter);
         }
 
         public void UpsertPackageTypes(PackageType[] packageTypes)
