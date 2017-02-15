@@ -115,12 +115,17 @@
     <Reference Include="VirtoCommerce.Platform.Core, Version=2.12.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\VirtoCommerce.Platform.Core.2.12.6\lib\net461\VirtoCommerce.Platform.Core.dll</HintPath>
     </Reference>
+    <Reference Include="VirtoCommerce.Platform.Core.Web, Version=2.12.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VirtoCommerce.Platform.Core.Web.2.12.5\lib\net461\VirtoCommerce.Platform.Core.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="VirtoCommerce.Platform.Data, Version=2.12.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\VirtoCommerce.Platform.Data.2.12.5\lib\net461\VirtoCommerce.Platform.Data.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\logoVC.png" />
+    <Content Include="Scripts\resources\changesTracking.js" />
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
@@ -152,6 +157,7 @@
     <Compile Include="Decorators\MemberServicesDecorator.cs" />
     <Compile Include="Decorators\StoreServicesDecorator.cs" />
     <Compile Include="Extensions\SerializationExtension.cs" />
+    <Compile Include="Model\ForceChangesRequest.cs" />
     <Compile Include="Model\LastModifiedResponse.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -2,7 +2,7 @@
     "cache": {
 
         "reset-cache-command": "Reset cache",
-        "store-url-empty-info": "Please set url or secure url for store"
+        "cache-reset-sucesfully": "Cache has been reset successfully!"
 
     }
 }
