@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <module>
     <id>VirtoCommerce.Cache</id>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
     <platformVersion>2.12.0</platformVersion>
     <dependencies>
         <dependency id="VirtoCommerce.Core" version="2.20.0" />
@@ -21,7 +21,7 @@
     <projectUrl>https://github.com/VirtoCommerce/vc-module-cache</projectUrl>
     <iconUrl>Modules/$(VirtoCommerce.Cache)/Content/logoVC.png</iconUrl>
     <releaseNotes>First version.</releaseNotes>
-    <copyright>Copyright © 2011-2016 Virto Commerce. All rights reserved</copyright>
+    <copyright>Copyright © 2011-2017 Virto Commerce. All rights reserved</copyright>
     <tags>cache</tags>
 
     <assemblyFile>VirtoCommerce.CacheModule.Web.dll</assemblyFile>
