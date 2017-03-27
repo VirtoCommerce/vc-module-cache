@@ -4,6 +4,7 @@ using VirtoCommerce.CacheModule.Web.Services;
 using VirtoCommerce.Domain.Catalog.Services;
 using VirtoCommerce.Domain.Commerce.Services;
 using VirtoCommerce.Domain.Customer.Services;
+using VirtoCommerce.Domain.Marketing.Services;
 using VirtoCommerce.Domain.Store.Services;
 using VirtoCommerce.Platform.Core.Modularity;
 
@@ -41,12 +42,19 @@ namespace VirtoCommerce.CacheModule.Web
             _container.RegisterInstance<ICategoryService>(catalogServicesDecorator);
             _container.RegisterInstance<ICatalogService>(catalogServicesDecorator);
 
+
             var memberServicesDecorator = new MemberServicesDecorator(_container.Resolve<IMemberService>(), _container.Resolve<IMemberSearchService>(), cacheManagerAdaptor, changesTrackingService);
             _container.RegisterInstance<IMemberService>(memberServicesDecorator);
             _container.RegisterInstance<IMemberSearchService>(memberServicesDecorator);
 
             var commerceServicesDecorator = new CommerceServiceDecorator(_container.Resolve<ICommerceService>(), new ICachedServiceDecorator[] { catalogServicesDecorator, storeServiceDecorator }, changesTrackingService);
             _container.RegisterInstance<ICommerceService>(commerceServicesDecorator);
+
+            var marketingServicesDecorator = new MarketingServicesDecorator(cacheManagerAdaptor, changesTrackingService, _container.Resolve<IDynamicContentService>(), _container.Resolve<IPromotionSearchService>(), _container.Resolve<IPromotionService>(), _container.Resolve<ICouponService>());
+            _container.RegisterInstance<IDynamicContentService>(marketingServicesDecorator);
+            _container.RegisterInstance<IPromotionSearchService>(marketingServicesDecorator);
+            _container.RegisterInstance<IPromotionService>(marketingServicesDecorator);
+            _container.RegisterInstance<ICouponService>(marketingServicesDecorator);
         }
         #endregion
     }
