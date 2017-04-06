@@ -41,7 +41,7 @@
                 <valueType>boolean</valueType>
                 <defaultValue>true</defaultValue>
                 <title>Enable smart caching</title>
-                <description>For next  domain services: Catalog, Store, Customer</description>
+                <description>For the following domain services: Catalog, Store, Customer</description>
             </setting>
         </group>
     </settings>
