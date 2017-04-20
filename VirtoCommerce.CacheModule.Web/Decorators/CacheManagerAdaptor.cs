@@ -20,7 +20,11 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
         {
             if (_settingManager.GetValue("Cache.Enable", true))
             {
-                return _cacheManager.Get(cacheKey, region, getValueFunction);
+                var expirationTimeout = _settingManager.GetValue("Cache.ExpirationTimeout", 60);
+                var result = _cacheManager.Get(cacheKey, region, getValueFunction);
+                //Set cached object expiration to prevent memory clogging
+                _cacheManager.Expire(cacheKey, region, ExpirationMode.Sliding, TimeSpan.FromSeconds(expirationTimeout));
+                return result;
             }
             return getValueFunction();
         }

@@ -41,7 +41,14 @@
                 <valueType>boolean</valueType>
                 <defaultValue>true</defaultValue>
                 <title>Enable smart caching</title>
-                <description>For the following domain services: Catalog, Store, Customer</description>
+                <description>For the following domain services: Catalog, Store, Customer, Marketing, SEO</description>
+            </setting>
+            <setting>
+                <name>Cache.ExpirationTimeout</name>
+                <valueType>integer</valueType>
+                <defaultValue>60</defaultValue>
+                <title>Сache sliding expiration timeout (seconds)</title>
+                <description>Change this setting to balance memory usage (low timeout - low memory usage, hight - hight memory usage)</description>
             </setting>
         </group>
     </settings>
