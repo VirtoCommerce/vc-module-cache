@@ -150,7 +150,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\Api\ChangesTrackingController.cs" />
+    <Compile Include="Controllers\Api\CacheModuleController.cs" />
     <Compile Include="Decorators\CacheManagerAdaptor.cs" />
     <Compile Include="Decorators\CatalogServicesDecorator.cs" />
     <Compile Include="Decorators\CommerceServiceDecorator.cs" />
@@ -159,6 +159,7 @@
     <Compile Include="Decorators\MarketingServicesDecorator.cs" />
     <Compile Include="Decorators\StoreServicesDecorator.cs" />
     <Compile Include="Extensions\SerializationExtension.cs" />
+    <Compile Include="Model\CacheHandleStat.cs" />
     <Compile Include="Model\ForceChangesRequest.cs" />
     <Compile Include="Model\LastModifiedResponse.cs" />
     <Compile Include="Module.cs" />
