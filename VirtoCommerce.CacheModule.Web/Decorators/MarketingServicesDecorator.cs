@@ -19,26 +19,22 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
         private readonly IPromotionSearchService _promoSearchService;
         private readonly IPromotionService _promotionService;
         private readonly ICouponService _couponService;
-        private readonly IChangesTrackingService _changesTrackingService;
 
-        private const string _regionName = "Marketing-Cache-Region";
+        public const string RegionName = "Marketing-Cache-Region";
 
-        public MarketingServicesDecorator(CacheManagerAdaptor cacheManager, IChangesTrackingService changesTrackingService, IDynamicContentService contentService, IPromotionSearchService promoSearchService, IPromotionService promoService, ICouponService couponService)
+        public MarketingServicesDecorator(CacheManagerAdaptor cacheManager, IDynamicContentService contentService, IPromotionSearchService promoSearchService, IPromotionService promoService, ICouponService couponService)
         {
             _contentService = contentService;
             _cacheManager = cacheManager;
             _promoSearchService = promoSearchService;
             _promotionService = promoService;
             _couponService = couponService;
-            _changesTrackingService = changesTrackingService;
-
         }
 
         #region ICachedServiceDecorator
         public void ClearCache()
         {
-            _cacheManager.ClearRegion(_regionName);
-            _changesTrackingService.Update(null, DateTime.UtcNow);
+            _cacheManager.ClearRegion(RegionName);
         }
         #endregion
 
@@ -46,7 +42,7 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
         public DynamicContentFolder[] GetFoldersByIds(string[] ids)
         {
             var cacheKey = GetCacheKey("IDynamicContentService.GetFoldersByIds", string.Join(", ", ids));
-            var retVal = _cacheManager.Get(cacheKey, _regionName, () => _contentService.GetFoldersByIds(ids));
+            var retVal = _cacheManager.Get(cacheKey, RegionName, () => _contentService.GetFoldersByIds(ids));
             return retVal;
         }
 
@@ -65,7 +61,7 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
         public DynamicContentItem[] GetContentItemsByIds(string[] ids)
         {
             var cacheKey = GetCacheKey("IDynamicContentService.GetContentItemsByIds", string.Join(", ", ids));
-            var retVal = _cacheManager.Get(cacheKey, _regionName, () => _contentService.GetContentItemsByIds(ids));
+            var retVal = _cacheManager.Get(cacheKey, RegionName, () => _contentService.GetContentItemsByIds(ids));
             return retVal;
         }
 
@@ -84,7 +80,7 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
         public DynamicContentPlace[] GetPlacesByIds(string[] ids)
         {
             var cacheKey = GetCacheKey("IDynamicContentService.GetPlacesByIds", string.Join(", ", ids));
-            var retVal = _cacheManager.Get(cacheKey, _regionName, () => _contentService.GetPlacesByIds(ids));
+            var retVal = _cacheManager.Get(cacheKey, RegionName, () => _contentService.GetPlacesByIds(ids));
             return retVal;
         }
 
@@ -103,7 +99,7 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
         public DynamicContentPublication[] GetPublicationsByIds(string[] ids)
         {
             var cacheKey = GetCacheKey("IDynamicContentService.GetPublicationsByIds", string.Join(", ", ids));
-            var retVal = _cacheManager.Get(cacheKey, _regionName, () => _contentService.GetPublicationsByIds(ids));
+            var retVal = _cacheManager.Get(cacheKey, RegionName, () => _contentService.GetPublicationsByIds(ids));
             return retVal;
         }
 
@@ -124,7 +120,7 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
         public GenericSearchResult<Promotion> SearchPromotions(PromotionSearchCriteria criteria)
         {
             var cacheKey = GetCacheKey("IPromotionSearchService.SearchPromotions", criteria.ToJson().GetHashCode().ToString());
-            var retVal = _cacheManager.Get(cacheKey, _regionName, () => _promoSearchService.SearchPromotions(criteria));
+            var retVal = _cacheManager.Get(cacheKey, RegionName, () => _promoSearchService.SearchPromotions(criteria));
             return retVal;
         }
         #endregion
@@ -134,7 +130,7 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
         public Promotion[] GetPromotionsByIds(string[] ids)
         {
             var cacheKey = GetCacheKey("IPromotionService.GetPromotionsByIds", string.Join(", ", ids));
-            var retVal = _cacheManager.Get(cacheKey, _regionName, () => _promotionService.GetPromotionsByIds(ids));
+            var retVal = _cacheManager.Get(cacheKey, RegionName, () => _promotionService.GetPromotionsByIds(ids));
             return retVal;
         }
 
@@ -155,14 +151,14 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
         public GenericSearchResult<Coupon> SearchCoupons(CouponSearchCriteria criteria)
         {
             var cacheKey = GetCacheKey("ICouponService.SearchCoupons", criteria.ToJson().GetHashCode().ToString());
-            var retVal = _cacheManager.Get(cacheKey, _regionName, () => _couponService.SearchCoupons(criteria));
+            var retVal = _cacheManager.Get(cacheKey, RegionName, () => _couponService.SearchCoupons(criteria));
             return retVal;
         }
 
         public Coupon[] GetByIds(string[] ids)
         {
             var cacheKey = GetCacheKey("ICouponService.GetByIds", string.Join(", ", ids));
-            var retVal = _cacheManager.Get(cacheKey, _regionName, () => _couponService.GetByIds(ids));
+            var retVal = _cacheManager.Get(cacheKey, RegionName, () => _couponService.GetByIds(ids));
             return retVal;
         }
 

@@ -10,13 +10,11 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
     {
         private readonly ICommerceService _commerceService;
         private readonly IList<ICachedServiceDecorator> _allSeoInfoRelatedDecorators;
-        private readonly IChangesTrackingService _changesTrackingService;
 
-        public CommerceServiceDecorator(ICommerceService commerceService, IList<ICachedServiceDecorator> allSeoInfoRelatedDecorators, IChangesTrackingService changesTrackingService)
+        public CommerceServiceDecorator(ICommerceService commerceService, IList<ICachedServiceDecorator> allSeoInfoRelatedDecorators)
         {
             _commerceService = commerceService;
             _allSeoInfoRelatedDecorators = allSeoInfoRelatedDecorators;
-            _changesTrackingService = changesTrackingService;
         }
 
         #region ICachedServiceDecorator
@@ -29,8 +27,6 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
                     decorator.ClearCache();
                 }
             }
-
-            _changesTrackingService.Update(null, DateTime.UtcNow);
         }
         #endregion
 

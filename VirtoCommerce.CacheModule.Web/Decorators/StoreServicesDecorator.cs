@@ -11,22 +11,19 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
     internal sealed class StoreServicesDecorator : ICachedServiceDecorator, IStoreService
     {
         private readonly CacheManagerAdaptor _cacheManager;
-        private readonly IChangesTrackingService _changesTrackingService;
         private readonly IStoreService _storeService;
-        private const string _regionName = "Store-Cache-Region";
+        public const string RegionName = "Store-Cache-Region";
 
-        public StoreServicesDecorator(IStoreService storeService, CacheManagerAdaptor cacheManager, IChangesTrackingService changesTrackingService)
+        public StoreServicesDecorator(IStoreService storeService, CacheManagerAdaptor cacheManager)
         {
             _storeService = storeService;
             _cacheManager = cacheManager;
-            _changesTrackingService = changesTrackingService;
         }
 
         #region ICachedServiceDecorator
         public void ClearCache()
         {
-            _cacheManager.ClearRegion(_regionName);
-            _changesTrackingService.Update(null, DateTime.UtcNow);
+            _cacheManager.ClearRegion(RegionName);
         }
         #endregion
 
@@ -47,14 +44,14 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
         public Store GetById(string id)
         {
             var cacheKey = GetCacheKey("StoreService.GetById", id);
-            var retVal = _cacheManager.Get(cacheKey, _regionName, () => _storeService.GetById(id));
+            var retVal = _cacheManager.Get(cacheKey, RegionName, () => _storeService.GetById(id));
             return retVal;
         }
 
         public Store[] GetByIds(string[] ids)
         {
             var cacheKey = GetCacheKey("StoreService.GetByIds", string.Join(",", ids));
-            var retVal = _cacheManager.Get(cacheKey, _regionName, () => _storeService.GetByIds(ids));
+            var retVal = _cacheManager.Get(cacheKey, RegionName, () => _storeService.GetByIds(ids));
             return retVal;
         }
 
@@ -66,7 +63,7 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
         public SearchResult SearchStores(SearchCriteria criteria)
         {
             var cacheKey = GetCacheKey("StoreService.SearchStores", criteria.ToJson().GetHashCode().ToString());
-            var retVal = _cacheManager.Get(cacheKey, _regionName, () => _storeService.SearchStores(criteria));
+            var retVal = _cacheManager.Get(cacheKey, RegionName, () => _storeService.SearchStores(criteria));
             return retVal;
         }
 

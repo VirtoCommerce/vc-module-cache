@@ -13,22 +13,19 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
         private readonly IMemberService _memberService;
         private readonly IMemberSearchService _memberSearchService;
         private readonly CacheManagerAdaptor _cacheManager;
-        private readonly IChangesTrackingService _changesTrackingService;
-        private const string _regionName = "Member-Cache-Region";
+        public const string RegionName = "Member-Cache-Region";
 
-        public MemberServicesDecorator(IMemberService memberService, IMemberSearchService memberSearchService, CacheManagerAdaptor cacheManager, IChangesTrackingService changesTrackingService)
+        public MemberServicesDecorator(IMemberService memberService, IMemberSearchService memberSearchService, CacheManagerAdaptor cacheManager)
         {
             _memberService = memberService;
             _memberSearchService = memberSearchService;
             _cacheManager = cacheManager;
-            _changesTrackingService = changesTrackingService;
         }
 
         #region ICachedServiceDecorator
         public void ClearCache()
         {
-            _cacheManager.ClearRegion(_regionName);
-            _changesTrackingService.Update(null, DateTime.UtcNow);
+            _cacheManager.ClearRegion(RegionName);
         }
         #endregion
 
@@ -48,7 +45,7 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
         public Member[] GetByIds(string[] memberIds, string responseGroup = null, string[] memberTypes = null)
         {
             var cacheKey = GetCacheKey("MemberService.GetByIds", string.Join(", ", memberIds), memberTypes.IsNullOrEmpty() ? "" : string.Join(", ", memberTypes));
-            var retVal = _cacheManager.Get(cacheKey, _regionName, () => _memberService.GetByIds(memberIds, responseGroup, memberTypes));
+            var retVal = _cacheManager.Get(cacheKey, RegionName, () => _memberService.GetByIds(memberIds, responseGroup, memberTypes));
             return retVal;
         }
         #endregion
@@ -57,7 +54,7 @@ namespace VirtoCommerce.CacheModule.Web.Decorators
         public GenericSearchResult<Member> SearchMembers(MembersSearchCriteria criteria)
         {
             var cacheKey = GetCacheKey("MemberSearchService.SearchMembers", criteria.ToJson().GetHashCode().ToString());
-            var retVal = _cacheManager.Get(cacheKey, _regionName, () => _memberSearchService.SearchMembers(criteria));
+            var retVal = _cacheManager.Get(cacheKey, RegionName, () => _memberSearchService.SearchMembers(criteria));
             return retVal;
         }
         #endregion
