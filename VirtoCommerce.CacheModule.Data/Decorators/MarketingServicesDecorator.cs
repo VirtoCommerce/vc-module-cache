@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using VirtoCommerce.CacheModule.Web.Extensions;
-using VirtoCommerce.CacheModule.Web.Services;
+﻿using VirtoCommerce.CacheModule.Data.Extensions;
 using VirtoCommerce.Domain.Commerce.Model.Search;
 using VirtoCommerce.Domain.Marketing.Model;
 using VirtoCommerce.Domain.Marketing.Model.Promotions.Search;
 using VirtoCommerce.Domain.Marketing.Services;
-using VirtoCommerce.Domain.Store.Model;
-using VirtoCommerce.Domain.Store.Services;
-using VirtoCommerce.Platform.Core.Security;
 
-namespace VirtoCommerce.CacheModule.Web.Decorators
+namespace VirtoCommerce.CacheModule.Data.Decorators
 {
-    internal sealed class MarketingServicesDecorator : ICachedServiceDecorator, IDynamicContentService, IPromotionSearchService, IPromotionService, ICouponService
+    public sealed class MarketingServicesDecorator : ICachedServiceDecorator, IDynamicContentService, IPromotionSearchService, IPromotionService, ICouponService
     {
         private readonly CacheManagerAdaptor _cacheManager;
         private readonly IDynamicContentService _contentService;

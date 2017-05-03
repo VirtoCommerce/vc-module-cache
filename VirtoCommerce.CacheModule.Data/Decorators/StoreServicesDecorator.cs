@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using VirtoCommerce.CacheModule.Web.Extensions;
-using VirtoCommerce.CacheModule.Web.Services;
+﻿using System.Collections.Generic;
+using VirtoCommerce.CacheModule.Data.Extensions;
 using VirtoCommerce.Domain.Store.Model;
 using VirtoCommerce.Domain.Store.Services;
 using VirtoCommerce.Platform.Core.Security;
 
-namespace VirtoCommerce.CacheModule.Web.Decorators
+namespace VirtoCommerce.CacheModule.Data.Decorators
 {
-    internal sealed class StoreServicesDecorator : ICachedServiceDecorator, IStoreService
+    public sealed class StoreServicesDecorator : ICachedServiceDecorator, IStoreService
     {
         private readonly CacheManagerAdaptor _cacheManager;
         private readonly IStoreService _storeService;

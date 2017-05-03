@@ -3,9 +3,9 @@ using CacheManager.Core;
 using VirtoCommerce.Platform.Core.Settings;
 using VirtoCommerce.Platform.Data.Common;
 
-namespace VirtoCommerce.CacheModule.Web.Decorators
+namespace VirtoCommerce.CacheModule.Data.Decorators
 {
-    internal sealed class CacheManagerAdaptor
+    public sealed class CacheManagerAdaptor
     {
         private readonly ICacheManager<object> _cacheManager;
         private readonly ISettingsManager _settingManager;

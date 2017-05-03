@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using VirtoCommerce.CacheModule.Web.Extensions;
-using VirtoCommerce.CacheModule.Web.Services;
+using VirtoCommerce.CacheModule.Data.Extensions;
 using VirtoCommerce.Domain.Catalog.Model;
 using VirtoCommerce.Domain.Catalog.Services;
 
-namespace VirtoCommerce.CacheModule.Web.Decorators
+namespace VirtoCommerce.CacheModule.Data.Decorators
 {
-    internal sealed class CatalogServicesDecorator : ICachedServiceDecorator, IItemService, ICatalogSearchService, IPropertyService, ICategoryService, ICatalogService
+    public sealed class CatalogServicesDecorator : ICachedServiceDecorator, IItemService, ICatalogSearchService, IPropertyService, ICategoryService, ICatalogService
     {
         private readonly IItemService _itemService;
         private readonly ICatalogSearchService _searchService;

@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security;
 using System.Web.Http;
 using System.Web.Http.Description;
 using CacheManager.Core;
+using VirtoCommerce.CacheModule.Data.Services;
 using VirtoCommerce.CacheModule.Web.Model;
 using VirtoCommerce.CacheModule.Web.Security;
-using VirtoCommerce.CacheModule.Web.Services;
 using VirtoCommerce.Platform.Core.Web.Security;
 
 namespace VirtoCommerce.CacheModule.Web.Controllers.Api
-{    
+{
     [RoutePrefix("api")]
     public class CacheModuleController : ApiController
     {
@@ -79,6 +77,7 @@ namespace VirtoCommerce.CacheModule.Web.Controllers.Api
 
         /// <summary>
         /// Get last modified date for given scope
+        /// Used for signal of what something changed and for cache invalidation in external platform clients
         /// </summary>
         /// <param name="scope"></param>
         /// <returns></returns>

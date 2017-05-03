@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
 using CacheManager.Core;
+using Common.Logging;
 using Microsoft.Practices.Unity;
-using VirtoCommerce.CacheModule.Web.Decorators;
-using VirtoCommerce.CacheModule.Web.Services;
+using VirtoCommerce.CacheModule.Data.Decorators;
+using VirtoCommerce.CacheModule.Data.Repositories;
+using VirtoCommerce.CacheModule.Data.Services;
 using VirtoCommerce.Domain.Catalog.Services;
 using VirtoCommerce.Domain.Commerce.Services;
 using VirtoCommerce.Domain.Customer.Services;
@@ -11,11 +13,14 @@ using VirtoCommerce.Domain.Marketing.Services;
 using VirtoCommerce.Domain.Store.Services;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Modularity;
+using VirtoCommerce.Platform.Data.Infrastructure;
+using VirtoCommerce.Platform.Data.Infrastructure.Interceptors;
 
 namespace VirtoCommerce.CacheModule.Web
 {
     public class Module : ModuleBase
     {
+        private const string _connectionStringName = "VirtoCommerce";
         private readonly IUnityContainer _container;
 
         public Module(IUnityContainer container)
@@ -25,8 +30,17 @@ namespace VirtoCommerce.CacheModule.Web
 
         #region IModule Members  
 
-        public override void Initialize()
+        public override void SetupDatabase()
         {
+            using (var db = new CacheRepositoryImpl(_connectionStringName))
+            {
+                var initializer = new SetupDatabaseInitializer<CacheRepositoryImpl, Data.Migrations.Configuration>();
+                initializer.InitializeDatabase(db);
+            }
+        }
+
+        public override void Initialize()
+        {        
             base.Initialize();           
         }
 
@@ -44,7 +58,6 @@ namespace VirtoCommerce.CacheModule.Web
             _container.RegisterInstance<ICategoryService>(catalogServicesDecorator);
             _container.RegisterInstance<ICatalogService>(catalogServicesDecorator);
 
-
             var memberServicesDecorator = new MemberServicesDecorator(_container.Resolve<IMemberService>(), _container.Resolve<IMemberSearchService>(), cacheManagerAdaptor);
             _container.RegisterInstance<IMemberService>(memberServicesDecorator);
             _container.RegisterInstance<IMemberSearchService>(memberServicesDecorator);
@@ -58,21 +71,38 @@ namespace VirtoCommerce.CacheModule.Web
             _container.RegisterInstance<IPromotionService>(marketingServicesDecorator);
             _container.RegisterInstance<ICouponService>(marketingServicesDecorator);
 
-            var changeTrackingService = new ChangesTrackingService();
+            Func<ICacheRepository> repositoryFactory = () => new CacheRepositoryImpl(_connectionStringName, new EntityPrimaryKeyGeneratorInterceptor());
+            var changeTrackingService = new ChangesTrackingService(repositoryFactory);
             _container.RegisterInstance<IChangesTrackingService>(changeTrackingService);
             var cacheManager = _container.Resolve<ICacheManager<object>>();
             var observedRegions = new[] { StoreServicesDecorator.RegionName, CatalogServicesDecorator.RegionName, MemberServicesDecorator.RegionName, MarketingServicesDecorator.RegionName};
+            var logger = _container.Resolve<ILog>();
+
             //Need observe cache events to correct update latest changes timestamp when platform running on multiple instances
             //Cache clean event will be raising  thanks to Redis cache synced invalidation
             cacheManager.OnClear += (e, args) =>
             {
-                changeTrackingService.Update(null, DateTime.UtcNow);
+                try
+                {
+                    changeTrackingService.Update(null, DateTime.UtcNow);
+                }
+                catch(Exception ex)
+                {
+                    logger.Error(ex);
+                }
             };
             cacheManager.OnClearRegion += (e, args) =>
             {
                 if (args.Region != null && observedRegions.Any(x => x.EqualsInvariant(args.Region)))
                 {
-                    changeTrackingService.Update(null, DateTime.UtcNow);
+                    try
+                    {
+                        changeTrackingService.Update(null, DateTime.UtcNow);
+                    }
+                    catch(Exception ex)
+                    {
+                        logger.Error(ex);
+                    }
                 }
             };
         }

@@ -19,7 +19,7 @@ angular.module(moduleName, [])
 			
 				blade.isLoading = true;
 					// {store_secure_url}/resetcache
-				changesTracking.force({ scope: blade.currentEntity.id }, function (data) {
+				changesTracking.force({}, function (data) {
 				    blade.isLoading = false;
 				    $translate('cache.cache-reset-sucesfully').then(function (message) {
 				        alert(message);

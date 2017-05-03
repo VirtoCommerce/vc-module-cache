@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using VirtoCommerce.CacheModule.Web.Services;
 using VirtoCommerce.Domain.Commerce.Model;
 using VirtoCommerce.Domain.Commerce.Services;
 
-namespace VirtoCommerce.CacheModule.Web.Decorators
+namespace VirtoCommerce.CacheModule.Data.Decorators
 {
-    internal sealed class CommerceServiceDecorator : ICachedServiceDecorator, ICommerceService
+    public sealed class CommerceServiceDecorator : ICachedServiceDecorator, ICommerceService
     {
         private readonly ICommerceService _commerceService;
         private readonly IList<ICachedServiceDecorator> _allSeoInfoRelatedDecorators;

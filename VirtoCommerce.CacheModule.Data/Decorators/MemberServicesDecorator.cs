@@ -1,14 +1,12 @@
-﻿using System;
-using VirtoCommerce.CacheModule.Web.Extensions;
-using VirtoCommerce.CacheModule.Web.Services;
+﻿using VirtoCommerce.CacheModule.Data.Extensions;
 using VirtoCommerce.Domain.Commerce.Model.Search;
 using VirtoCommerce.Domain.Customer.Model;
 using VirtoCommerce.Domain.Customer.Services;
 using VirtoCommerce.Platform.Core.Common;
 
-namespace VirtoCommerce.CacheModule.Web.Decorators
+namespace VirtoCommerce.CacheModule.Data.Decorators
 {
-    internal sealed class MemberServicesDecorator : ICachedServiceDecorator, IMemberService, IMemberSearchService
+    public sealed class MemberServicesDecorator : ICachedServiceDecorator, IMemberService, IMemberSearchService
     {
         private readonly IMemberService _memberService;
         private readonly IMemberSearchService _memberSearchService;
