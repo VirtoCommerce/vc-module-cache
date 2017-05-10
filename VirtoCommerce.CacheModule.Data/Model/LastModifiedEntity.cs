@@ -15,7 +15,6 @@ namespace VirtoCommerce.CacheModule.Data.Model
         [Index(IsUnique = true)]
         public string Scope { get; set; }
 
-        [ConcurrencyCheck]
         public DateTime LastModifiedDate { get; set; }
     }
 }
