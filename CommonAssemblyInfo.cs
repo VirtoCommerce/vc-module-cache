@@ -12,12 +12,10 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyCompany("VirtoCommerce")]
-[assembly: AssemblyTitle("VirtoCommerce.CacheModule.Web")]
-
 [assembly: AssemblyCopyright("Copyright © VirtoCommerce 2011-2017")]
 
-[assembly: AssemblyFileVersion("1.0.10.0")]
-[assembly: AssemblyVersion("1.0.10.0")]
+[assembly: AssemblyFileVersion("1.0.12.0")]
+[assembly: AssemblyVersion("1.0.12.0")]
 
 #if DEBUG
 [assembly: AssemblyConfiguration("Debug")]
