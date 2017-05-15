@@ -9,6 +9,7 @@ using VirtoCommerce.CacheModule.Data.Services;
 using VirtoCommerce.Domain.Catalog.Services;
 using VirtoCommerce.Domain.Commerce.Services;
 using VirtoCommerce.Domain.Customer.Services;
+using VirtoCommerce.Domain.Inventory.Services;
 using VirtoCommerce.Domain.Marketing.Services;
 using VirtoCommerce.Domain.Store.Services;
 using VirtoCommerce.Platform.Core.Common;
@@ -70,6 +71,9 @@ namespace VirtoCommerce.CacheModule.Web
             _container.RegisterInstance<IPromotionSearchService>(marketingServicesDecorator);
             _container.RegisterInstance<IPromotionService>(marketingServicesDecorator);
             _container.RegisterInstance<ICouponService>(marketingServicesDecorator);
+
+            var inventoryServicesDecorator = new InventoryServicesDecorator(_container.Resolve<IInventoryService>(), cacheManagerAdaptor);
+            _container.RegisterInstance<IInventoryService>(inventoryServicesDecorator);
 
             Func<ICacheRepository> repositoryFactory = () => new CacheRepositoryImpl(_connectionStringName, new EntityPrimaryKeyGeneratorInterceptor());
             var changeTrackingService = new ChangesTrackingService(repositoryFactory);
