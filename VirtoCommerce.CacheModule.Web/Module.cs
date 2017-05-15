@@ -79,7 +79,7 @@ namespace VirtoCommerce.CacheModule.Web
             var changeTrackingService = new ChangesTrackingService(repositoryFactory);
             _container.RegisterInstance<IChangesTrackingService>(changeTrackingService);
             var cacheManager = _container.Resolve<ICacheManager<object>>();
-            var observedRegions = new[] { StoreServicesDecorator.RegionName, CatalogServicesDecorator.RegionName, MemberServicesDecorator.RegionName, MarketingServicesDecorator.RegionName};
+            var observedRegions = new[] { StoreServicesDecorator.RegionName, CatalogServicesDecorator.RegionName, MemberServicesDecorator.RegionName, MarketingServicesDecorator.RegionName, InventoryServicesDecorator.RegionName};
             var logger = _container.Resolve<ILog>();
 
             //Need observe cache events to correct update latest changes timestamp when platform running on multiple instances
