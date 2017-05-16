@@ -130,6 +130,7 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Localizations\de.VirtoCommerce.Cache.json" />
     <None Include="module.ignore" />
     <Content Include="module.manifest">
       <SubType>Designer</SubType>
