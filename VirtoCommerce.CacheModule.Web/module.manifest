@@ -19,7 +19,7 @@
     <owners>
         <owner>Virto Commerce</owner>
     </owners>
-    <projectUrl>https://github.com/VirtoCommerce/vc-module-cache</projectUrl>
+    <projectUrl>https://virtocommerce.com/apps/extensions/smart-caching-module</projectUrl>
     <iconUrl>Modules/$(VirtoCommerce.Cache)/Content/logoVC.png</iconUrl>
     <releaseNotes>First version.</releaseNotes>
     <copyright>Copyright © 2011-2017 Virto Commerce. All rights reserved</copyright>
