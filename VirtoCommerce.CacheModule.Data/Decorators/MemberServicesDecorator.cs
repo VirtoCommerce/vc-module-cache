@@ -1,6 +1,7 @@
 ﻿using VirtoCommerce.CacheModule.Data.Extensions;
 using VirtoCommerce.Domain.Commerce.Model.Search;
 using VirtoCommerce.Domain.Customer.Model;
+using VirtoCommerce.Domain.Customer.Model.Search;
 using VirtoCommerce.Domain.Customer.Services;
 using VirtoCommerce.Platform.Core.Common;
 
@@ -49,7 +50,7 @@ namespace VirtoCommerce.CacheModule.Data.Decorators
         #endregion
 
         #region IMemberSearchService
-        public GenericSearchResult<Member> SearchMembers(MembersSearchCriteria criteria)
+        public GenericSearchResult<Member> SearchMembers(MemberSearchCriteria criteria)
         {
             var cacheKey = GetCacheKey("MemberSearchService.SearchMembers", criteria.ToJson().GetHashCode().ToString());
             var retVal = _cacheManager.Get(cacheKey, RegionName, () => _memberSearchService.SearchMembers(criteria));

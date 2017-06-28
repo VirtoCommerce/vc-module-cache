@@ -40,15 +40,10 @@ namespace VirtoCommerce.CacheModule.Web
             }
         }
 
-        public override void Initialize()
-        {        
-            base.Initialize();           
-        }
-
         public override void PostInitialize()
         {
             var cacheManagerAdaptor = _container.Resolve<CacheManagerAdaptor>();
-          
+
             var storeServiceDecorator = new StoreServicesDecorator(_container.Resolve<IStoreService>(), cacheManagerAdaptor);
             _container.RegisterInstance<IStoreService>(storeServiceDecorator);
 
@@ -79,7 +74,7 @@ namespace VirtoCommerce.CacheModule.Web
             var changeTrackingService = new ChangesTrackingService(repositoryFactory);
             _container.RegisterInstance<IChangesTrackingService>(changeTrackingService);
             var cacheManager = _container.Resolve<ICacheManager<object>>();
-            var observedRegions = new[] { StoreServicesDecorator.RegionName, CatalogServicesDecorator.RegionName, MemberServicesDecorator.RegionName, MarketingServicesDecorator.RegionName, InventoryServicesDecorator.RegionName};
+            var observedRegions = new[] { StoreServicesDecorator.RegionName, CatalogServicesDecorator.RegionName, MemberServicesDecorator.RegionName, MarketingServicesDecorator.RegionName, InventoryServicesDecorator.RegionName };
             var logger = _container.Resolve<ILog>();
 
             //Need observe cache events to correct update latest changes timestamp when platform running on multiple instances
@@ -90,7 +85,7 @@ namespace VirtoCommerce.CacheModule.Web
                 {
                     changeTrackingService.Update(null, DateTime.UtcNow);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     logger.Error(ex);
                 }
@@ -103,7 +98,7 @@ namespace VirtoCommerce.CacheModule.Web
                     {
                         changeTrackingService.Update(null, DateTime.UtcNow);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         logger.Error(ex);
                     }
