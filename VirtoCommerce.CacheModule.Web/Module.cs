@@ -6,6 +6,7 @@ using Microsoft.Practices.Unity;
 using VirtoCommerce.CacheModule.Data.Decorators;
 using VirtoCommerce.CacheModule.Data.Repositories;
 using VirtoCommerce.CacheModule.Data.Services;
+using VirtoCommerce.ContentModule.Data.Services;
 using VirtoCommerce.Domain.Catalog.Services;
 using VirtoCommerce.Domain.Commerce.Services;
 using VirtoCommerce.Domain.Customer.Services;
@@ -74,6 +75,19 @@ namespace VirtoCommerce.CacheModule.Web
 
             var inventoryServicesDecorator = new InventoryServicesDecorator(_container.Resolve<IInventoryService>(), cacheManagerAdaptor);
             _container.RegisterInstance<IInventoryService>(inventoryServicesDecorator);
+
+            //ContentBlobStorageProviderDecorator initialization
+            var contentBlobStorageProviderFactory = _container.Resolve<Func<string, IContentBlobStorageProvider>>();
+            if (contentBlobStorageProviderFactory("").GetType() == typeof(AzureContentBlobStorageProvider))
+            {
+                Func<string, IContentBlobStorageProvider> contentProviderFactory = chrootPath =>
+                {
+                    var contentBlobStorageProvider = contentBlobStorageProviderFactory(chrootPath);
+                    var contentBlobStorageProviderDecorator = new ContentBlobStorageProviderDecorator(contentBlobStorageProvider, _container.Resolve<IChangesTrackingService>());
+                    return contentBlobStorageProviderDecorator;
+                };
+                _container.RegisterInstance(contentProviderFactory);
+            }
 
             Func<ICacheRepository> repositoryFactory = () => new CacheRepositoryImpl(_connectionStringName, new EntityPrimaryKeyGeneratorInterceptor());
             var changeTrackingService = new ChangesTrackingService(repositoryFactory);
