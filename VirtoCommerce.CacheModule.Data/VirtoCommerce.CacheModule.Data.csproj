@@ -87,6 +87,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Decorators\InventoryServicesDecorator.cs" />
+    <Compile Include="Decorators\SecurityServiceDecorator.cs" />
     <Compile Include="Migrations\201705030749284_Initial.cs" />
     <Compile Include="Migrations\201705030749284_Initial.Designer.cs">
       <DependentUpon>201705030749284_Initial.cs</DependentUpon>

@@ -14,6 +14,7 @@ using VirtoCommerce.Domain.Marketing.Services;
 using VirtoCommerce.Domain.Store.Services;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Modularity;
+using VirtoCommerce.Platform.Core.Security;
 using VirtoCommerce.Platform.Data.Infrastructure;
 using VirtoCommerce.Platform.Data.Infrastructure.Interceptors;
 
@@ -62,6 +63,9 @@ namespace VirtoCommerce.CacheModule.Web
             var memberServicesDecorator = new MemberServicesDecorator(_container.Resolve<IMemberService>(), _container.Resolve<IMemberSearchService>(), cacheManagerAdaptor);
             _container.RegisterInstance<IMemberService>(memberServicesDecorator);
             _container.RegisterInstance<IMemberSearchService>(memberServicesDecorator);
+
+            var securityServiceDecorator = new SecurityServiceDecorator(_container.Resolve<ISecurityService>(), memberServicesDecorator);
+            _container.RegisterInstance<ISecurityService>(securityServiceDecorator);
 
             var commerceServicesDecorator = new CommerceServiceDecorator(_container.Resolve<ICommerceService>(), new ICachedServiceDecorator[] { catalogServicesDecorator, storeServiceDecorator });
             _container.RegisterInstance<ICommerceService>(commerceServicesDecorator);
