@@ -48,14 +48,20 @@ namespace VirtoCommerce.CacheModule.Data.Decorators
         public async Task<SecurityResult> CreateAsync(ApplicationUserExtended user)
         {
             var retVal = await _securityService.CreateAsync(user);
-            ClearCache();
+            if (!string.IsNullOrEmpty(user.MemberId))
+            {
+                ClearCache();
+            }
             return retVal;
         }
 
         public async Task<SecurityResult> UpdateAsync(ApplicationUserExtended user)
         {
             var retVal = await _securityService.UpdateAsync(user);
-            ClearCache();
+            if (!string.IsNullOrEmpty(user.MemberId))
+            {
+                ClearCache();
+            }
             return retVal;
         }
 
