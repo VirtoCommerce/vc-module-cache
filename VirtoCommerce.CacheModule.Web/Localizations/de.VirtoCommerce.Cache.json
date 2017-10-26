@@ -1,0 +1,6 @@
+{
+  "cache": {
+	"reset-cache-command": "Cache zurücksetzen",
+    "cache-reset-sucesfully": "Der Cache wurde erfolgreich zurückgesetzt!"
+  }
+}
