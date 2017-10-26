@@ -40,10 +40,6 @@ namespace VirtoCommerce.CacheModule.Web
             }
         }
 
-        public override void Initialize()
-        {        
-            base.Initialize();           
-        }
 
         public override void PostInitialize()
         {
