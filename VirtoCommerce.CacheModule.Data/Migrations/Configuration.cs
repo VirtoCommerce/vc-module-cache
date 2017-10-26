@@ -12,9 +12,5 @@ namespace VirtoCommerce.CacheModule.Data.Migrations
             AutomaticMigrationsEnabled = false;
             MigrationsDirectory = @"Migrations";
         }
-
-        protected override void Seed(VirtoCommerce.CacheModule.Data.Repositories.CacheRepositoryImpl context)
-        {
-        }
     }
 }
