@@ -41,49 +41,45 @@ namespace VirtoCommerce.CacheModule.Web
             }
         }
 
-        public override void Initialize()
-        {        
-            base.Initialize();           
-        }
 
         public override void PostInitialize()
         {
             var cacheManagerAdaptor = _container.Resolve<CacheManagerAdaptor>();
-          
-            var storeServiceDecorator = new StoreServicesDecorator(_container.Resolve<IStoreService>(), cacheManagerAdaptor);
-            _container.RegisterInstance<IStoreService>(storeServiceDecorator);
 
-            var catalogServicesDecorator = new CatalogServicesDecorator(_container.Resolve<IItemService>(), _container.Resolve<ICatalogSearchService>(), _container.Resolve<IPropertyService>(), _container.Resolve<ICategoryService>(), _container.Resolve<ICatalogService>(), cacheManagerAdaptor);
-            _container.RegisterInstance<IItemService>(catalogServicesDecorator);
-            _container.RegisterInstance<ICatalogSearchService>(catalogServicesDecorator);
-            _container.RegisterInstance<IPropertyService>(catalogServicesDecorator);
-            _container.RegisterInstance<ICategoryService>(catalogServicesDecorator);
-            _container.RegisterInstance<ICatalogService>(catalogServicesDecorator);
+            var storeServiceDecorator = CreateStoreServicesDecorator(cacheManagerAdaptor);
 
-            var memberServicesDecorator = new MemberServicesDecorator(_container.Resolve<IMemberService>(), _container.Resolve<IMemberSearchService>(), cacheManagerAdaptor);
-            _container.RegisterInstance<IMemberService>(memberServicesDecorator);
-            _container.RegisterInstance<IMemberSearchService>(memberServicesDecorator);
+            var catalogServicesDecorator = CreateCatalogServicesDecorator(cacheManagerAdaptor);
 
-            var commerceServicesDecorator = new CommerceServiceDecorator(_container.Resolve<ICommerceService>(), new ICachedServiceDecorator[] { catalogServicesDecorator, storeServiceDecorator });
-            _container.RegisterInstance<ICommerceService>(commerceServicesDecorator);
+            if (storeServiceDecorator != null && catalogServicesDecorator != null)
+                CreateCommerceServiceDecorator(storeServiceDecorator, catalogServicesDecorator);
 
-            var marketingServicesDecorator = new MarketingServicesDecorator(cacheManagerAdaptor, _container.Resolve<IDynamicContentService>(), _container.Resolve<IPromotionSearchService>(), _container.Resolve<IPromotionService>(), _container.Resolve<ICouponService>());
-            _container.RegisterInstance<IDynamicContentService>(marketingServicesDecorator);
-            _container.RegisterInstance<IPromotionSearchService>(marketingServicesDecorator);
-            _container.RegisterInstance<IPromotionService>(marketingServicesDecorator);
-            _container.RegisterInstance<ICouponService>(marketingServicesDecorator);
+            RegisterMemberServicesDecorators(cacheManagerAdaptor);
 
-            var inventoryServicesDecorator = new InventoryServicesDecorator(_container.Resolve<IInventoryService>(), cacheManagerAdaptor);
-            _container.RegisterInstance<IInventoryService>(inventoryServicesDecorator);
+            RegisterMarketingServicesDecorators(cacheManagerAdaptor);
 
-            var pricingServicesDecorator = new PricingServicesDecorator(_container.Resolve<IPricingService>(), cacheManagerAdaptor);
-            _container.RegisterInstance<IPricingService>(pricingServicesDecorator);
+            RegisterInventoryServicesDecorators(cacheManagerAdaptor);
 
+            RegisterPricingServicesDecorators(cacheManagerAdaptor);
+
+            RegisterChangesTrackingService();
+        }
+
+        private void RegisterChangesTrackingService()
+        {
             Func<ICacheRepository> repositoryFactory = () => new CacheRepositoryImpl(_connectionStringName, new EntityPrimaryKeyGeneratorInterceptor());
             var changeTrackingService = new ChangesTrackingService(repositoryFactory);
             _container.RegisterInstance<IChangesTrackingService>(changeTrackingService);
             var cacheManager = _container.Resolve<ICacheManager<object>>();
-            var observedRegions = new[] { StoreServicesDecorator.RegionName, CatalogServicesDecorator.RegionName, MemberServicesDecorator.RegionName, MarketingServicesDecorator.RegionName, InventoryServicesDecorator.RegionName, PricingServicesDecorator.RegionName};
+
+            var observedRegions = new[] {
+                StoreServicesDecorator.RegionName,
+                CatalogServicesDecorator.RegionName,
+                MemberServicesDecorator.RegionName,
+                MarketingServicesDecorator.RegionName,
+                InventoryServicesDecorator.RegionName,
+                PricingServicesDecorator.RegionName
+            };
+
             var logger = _container.Resolve<ILog>();
 
             //Need observe cache events to correct update latest changes timestamp when platform running on multiple instances
@@ -94,7 +90,7 @@ namespace VirtoCommerce.CacheModule.Web
                 {
                     changeTrackingService.Update(null, DateTime.UtcNow);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     logger.Error(ex);
                 }
@@ -107,12 +103,96 @@ namespace VirtoCommerce.CacheModule.Web
                     {
                         changeTrackingService.Update(null, DateTime.UtcNow);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         logger.Error(ex);
                     }
                 }
             };
+        }
+
+        private void RegisterInventoryServicesDecorators(CacheManagerAdaptor cacheManagerAdaptor)
+        {
+            if (_container.IsRegistered<IInventoryService>())
+            {
+                var inventoryServicesDecorator = new InventoryServicesDecorator(_container.Resolve<IInventoryService>(), cacheManagerAdaptor);
+                _container.RegisterInstance<IInventoryService>(inventoryServicesDecorator);
+            }
+        }
+
+        private void RegisterMarketingServicesDecorators(CacheManagerAdaptor cacheManagerAdaptor)
+        {
+            if (_container.IsRegistered<IDynamicContentService>() &&
+                _container.IsRegistered<IPromotionSearchService>() &&
+                _container.IsRegistered<IPromotionService>() &&
+                _container.IsRegistered<ICouponService>())
+            {
+                var marketingServicesDecorator = new MarketingServicesDecorator(cacheManagerAdaptor, _container.Resolve<IDynamicContentService>(), _container.Resolve<IPromotionSearchService>(), _container.Resolve<IPromotionService>(), _container.Resolve<ICouponService>());
+                _container.RegisterInstance<IDynamicContentService>(marketingServicesDecorator);
+                _container.RegisterInstance<IPromotionSearchService>(marketingServicesDecorator);
+                _container.RegisterInstance<IPromotionService>(marketingServicesDecorator);
+                _container.RegisterInstance<ICouponService>(marketingServicesDecorator);
+            }
+        }
+
+        private void CreateCommerceServiceDecorator(StoreServicesDecorator storeServiceDecorator, CatalogServicesDecorator catalogServicesDecorator)
+        {
+            if (_container.IsRegistered<ICommerceService>())
+            {
+                var commerceServicesDecorator = new CommerceServiceDecorator(_container.Resolve<ICommerceService>(), new ICachedServiceDecorator[] { catalogServicesDecorator, storeServiceDecorator });
+                _container.RegisterInstance<ICommerceService>(commerceServicesDecorator);
+            }
+        }
+
+        private void RegisterMemberServicesDecorators(CacheManagerAdaptor cacheManagerAdaptor)
+        {
+            if (_container.IsRegistered<IMemberService>() &&
+                _container.IsRegistered<IMemberSearchService>())
+            {
+                var memberServicesDecorator = new MemberServicesDecorator(_container.Resolve<IMemberService>(), _container.Resolve<IMemberSearchService>(), cacheManagerAdaptor);
+                _container.RegisterInstance<IMemberService>(memberServicesDecorator);
+                _container.RegisterInstance<IMemberSearchService>(memberServicesDecorator);
+            }
+        }
+
+        private CatalogServicesDecorator CreateCatalogServicesDecorator(CacheManagerAdaptor cacheManagerAdaptor)
+        {
+            if (_container.IsRegistered<IItemService>() &&
+                _container.IsRegistered<ICatalogSearchService>() &&
+                _container.IsRegistered<IPropertyService>() &&
+                _container.IsRegistered<ICategoryService>() &&
+                _container.IsRegistered<ICatalogService>())
+            {
+                var catalogServicesDecorator = new CatalogServicesDecorator(_container.Resolve<IItemService>(), _container.Resolve<ICatalogSearchService>(), _container.Resolve<IPropertyService>(), _container.Resolve<ICategoryService>(), _container.Resolve<ICatalogService>(), cacheManagerAdaptor);
+                _container.RegisterInstance<IItemService>(catalogServicesDecorator);
+                _container.RegisterInstance<ICatalogSearchService>(catalogServicesDecorator);
+                _container.RegisterInstance<IPropertyService>(catalogServicesDecorator);
+                _container.RegisterInstance<ICategoryService>(catalogServicesDecorator);
+                _container.RegisterInstance<ICatalogService>(catalogServicesDecorator);
+                return catalogServicesDecorator;
+            }
+
+            return null;
+        }
+
+        private StoreServicesDecorator CreateStoreServicesDecorator(CacheManagerAdaptor cacheManagerAdaptor)
+        {
+            if (_container.IsRegistered<IStoreService>())
+            {
+                var storeServiceDecorator = new StoreServicesDecorator(_container.Resolve<IStoreService>(), cacheManagerAdaptor);
+                _container.RegisterInstance<IStoreService>(storeServiceDecorator);
+                return storeServiceDecorator;
+            }
+            return null;
+        }
+
+        private void RegisterPricingServicesDecorators(CacheManagerAdaptor cacheManagerAdaptor)
+        {
+            if (_container.IsRegistered<IPricingService>())
+            {
+                var pricingServiceDecorator = new PricingServicesDecorator(_container.Resolve<IPricingService>(), cacheManagerAdaptor);
+                _container.RegisterInstance<IPricingService>(pricingServiceDecorator);
+            }
         }
         #endregion
     }

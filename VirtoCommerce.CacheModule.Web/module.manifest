@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <module>
     <id>VirtoCommerce.Cache</id>
-    <version>1.0.13</version>
+    <version>1.0.14</version>
     <platformVersion>2.12.0</platformVersion>
     <dependencies>
         <dependency id="VirtoCommerce.Core" version="2.22.0" />
@@ -20,7 +20,7 @@
     <owners>
         <owner>Virto Commerce</owner>
     </owners>
-    <projectUrl>https://github.com/VirtoCommerce/vc-module-cache</projectUrl>
+    <projectUrl>https://virtocommerce.com/apps/extensions/smart-caching-module</projectUrl>
     <iconUrl>Modules/$(VirtoCommerce.Cache)/Content/logoVC.png</iconUrl>
     <releaseNotes>First version.</releaseNotes>
     <copyright>Copyright © 2011-2018 Virto Commerce. All rights reserved</copyright>

@@ -1,4 +1,4 @@
-﻿//Call this to register our module to main application
+//Call this to register our module to main application
 var moduleName = "virtoCommerce.cacheModule";
 
 if (AppDependencies != undefined) {
@@ -15,8 +15,6 @@ angular.module(moduleName, [])
 			name: "cache.reset-cache-command",
 			icon: 'fa fa-eraser',
 			executeMethod: function (blade) {
-				var store = blade.currentEntity;	
-			
 				blade.isLoading = true;
 					// {store_secure_url}/resetcache
 				changesTracking.force({}, function (data) {
