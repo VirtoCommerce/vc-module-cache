@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <module>
     <id>VirtoCommerce.Cache</id>
-    <version>1.0.14</version>
+    <version>1.0.15</version>
     <platformVersion>2.12.0</platformVersion>
     <dependencies>
         <dependency id="VirtoCommerce.Core" version="2.22.0" />
@@ -9,6 +9,7 @@
         <dependency id="VirtoCommerce.Catalog" version="2.16.0" />
         <dependency id="VirtoCommerce.Customer" version="2.13.0" />
         <dependency id="VirtoCommerce.Marketing" version="2.16.0" />
+        <dependency id="VirtoCommerce.Pricing" version="2.17.0" />
     </dependencies>
     <title>Smart caching module</title>
     <description>Smart caching for main domain services such as Catalog, Customer, Store.</description>
@@ -22,7 +23,7 @@
     <projectUrl>https://virtocommerce.com/apps/extensions/smart-caching-module</projectUrl>
     <iconUrl>Modules/$(VirtoCommerce.Cache)/Content/logoVC.png</iconUrl>
     <releaseNotes>First version.</releaseNotes>
-    <copyright>Copyright © 2011-2017 Virto Commerce. All rights reserved</copyright>
+    <copyright>Copyright © 2011-2018 Virto Commerce. All rights reserved</copyright>
     <tags>cache</tags>
 
     <assemblyFile>VirtoCommerce.CacheModule.Web.dll</assemblyFile>

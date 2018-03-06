@@ -11,6 +11,7 @@ using VirtoCommerce.Domain.Commerce.Services;
 using VirtoCommerce.Domain.Customer.Services;
 using VirtoCommerce.Domain.Inventory.Services;
 using VirtoCommerce.Domain.Marketing.Services;
+using VirtoCommerce.Domain.Pricing.Services;
 using VirtoCommerce.Domain.Store.Services;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Modularity;
@@ -52,11 +53,13 @@ namespace VirtoCommerce.CacheModule.Web
             if (storeServiceDecorator != null && catalogServicesDecorator != null)
                 CreateCommerceServiceDecorator(storeServiceDecorator, catalogServicesDecorator);
 
-            CreateMemberServicesDecorator(cacheManagerAdaptor);
+            RegisterMemberServicesDecorators(cacheManagerAdaptor);
 
-            CreateMarketingServicesDecorator(cacheManagerAdaptor);
+            RegisterMarketingServicesDecorators(cacheManagerAdaptor);
 
-            CreateInventoryServicesDecorator(cacheManagerAdaptor);
+            RegisterInventoryServicesDecorators(cacheManagerAdaptor);
+
+            RegisterPricingServicesDecorators(cacheManagerAdaptor);
 
             RegisterChangesTrackingService();
         }
@@ -73,7 +76,8 @@ namespace VirtoCommerce.CacheModule.Web
                 CatalogServicesDecorator.RegionName,
                 MemberServicesDecorator.RegionName,
                 MarketingServicesDecorator.RegionName,
-                InventoryServicesDecorator.RegionName
+                InventoryServicesDecorator.RegionName,
+                PricingServicesDecorator.RegionName
             };
 
             var logger = _container.Resolve<ILog>();
@@ -107,7 +111,7 @@ namespace VirtoCommerce.CacheModule.Web
             };
         }
 
-        private void CreateInventoryServicesDecorator(CacheManagerAdaptor cacheManagerAdaptor)
+        private void RegisterInventoryServicesDecorators(CacheManagerAdaptor cacheManagerAdaptor)
         {
             if (_container.IsRegistered<IInventoryService>())
             {
@@ -116,7 +120,7 @@ namespace VirtoCommerce.CacheModule.Web
             }
         }
 
-        private void CreateMarketingServicesDecorator(CacheManagerAdaptor cacheManagerAdaptor)
+        private void RegisterMarketingServicesDecorators(CacheManagerAdaptor cacheManagerAdaptor)
         {
             if (_container.IsRegistered<IDynamicContentService>() &&
                 _container.IsRegistered<IPromotionSearchService>() &&
@@ -140,7 +144,7 @@ namespace VirtoCommerce.CacheModule.Web
             }
         }
 
-        private void CreateMemberServicesDecorator(CacheManagerAdaptor cacheManagerAdaptor)
+        private void RegisterMemberServicesDecorators(CacheManagerAdaptor cacheManagerAdaptor)
         {
             if (_container.IsRegistered<IMemberService>() &&
                 _container.IsRegistered<IMemberSearchService>())
@@ -180,6 +184,15 @@ namespace VirtoCommerce.CacheModule.Web
                 return storeServiceDecorator;
             }
             return null;
+        }
+
+        private void RegisterPricingServicesDecorators(CacheManagerAdaptor cacheManagerAdaptor)
+        {
+            if (_container.IsRegistered<IPricingService>())
+            {
+                var pricingServiceDecorator = new PricingServicesDecorator(_container.Resolve<IPricingService>(), cacheManagerAdaptor);
+                _container.RegisterInstance<IPricingService>(pricingServiceDecorator);
+            }
         }
         #endregion
     }
