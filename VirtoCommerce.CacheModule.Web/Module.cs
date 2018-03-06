@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using CacheManager.Core;
 using Common.Logging;
@@ -11,6 +11,7 @@ using VirtoCommerce.Domain.Commerce.Services;
 using VirtoCommerce.Domain.Customer.Services;
 using VirtoCommerce.Domain.Inventory.Services;
 using VirtoCommerce.Domain.Marketing.Services;
+using VirtoCommerce.Domain.Pricing.Services;
 using VirtoCommerce.Domain.Store.Services;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Modularity;
@@ -75,11 +76,14 @@ namespace VirtoCommerce.CacheModule.Web
             var inventoryServicesDecorator = new InventoryServicesDecorator(_container.Resolve<IInventoryService>(), cacheManagerAdaptor);
             _container.RegisterInstance<IInventoryService>(inventoryServicesDecorator);
 
+            var pricingServicesDecorator = new PricingServicesDecorator(_container.Resolve<IPricingService>(), cacheManagerAdaptor);
+            _container.RegisterInstance<IPricingService>(pricingServicesDecorator);
+
             Func<ICacheRepository> repositoryFactory = () => new CacheRepositoryImpl(_connectionStringName, new EntityPrimaryKeyGeneratorInterceptor());
             var changeTrackingService = new ChangesTrackingService(repositoryFactory);
             _container.RegisterInstance<IChangesTrackingService>(changeTrackingService);
             var cacheManager = _container.Resolve<ICacheManager<object>>();
-            var observedRegions = new[] { StoreServicesDecorator.RegionName, CatalogServicesDecorator.RegionName, MemberServicesDecorator.RegionName, MarketingServicesDecorator.RegionName, InventoryServicesDecorator.RegionName};
+            var observedRegions = new[] { StoreServicesDecorator.RegionName, CatalogServicesDecorator.RegionName, MemberServicesDecorator.RegionName, MarketingServicesDecorator.RegionName, InventoryServicesDecorator.RegionName, PricingServicesDecorator.RegionName};
             var logger = _container.Resolve<ILog>();
 
             //Need observe cache events to correct update latest changes timestamp when platform running on multiple instances
