@@ -4,6 +4,7 @@ using CacheManager.Core;
 using Common.Logging;
 using Microsoft.Practices.Unity;
 using VirtoCommerce.CacheModule.Data.Decorators;
+using VirtoCommerce.CacheModule.Data.Handlers;
 using VirtoCommerce.CacheModule.Data.Repositories;
 using VirtoCommerce.CacheModule.Data.Services;
 using VirtoCommerce.Domain.Catalog.Services;
@@ -13,8 +14,10 @@ using VirtoCommerce.Domain.Inventory.Services;
 using VirtoCommerce.Domain.Marketing.Services;
 using VirtoCommerce.Domain.Pricing.Services;
 using VirtoCommerce.Domain.Store.Services;
+using VirtoCommerce.Platform.Core.Bus;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Modularity;
+using VirtoCommerce.Platform.Core.Security.Events;
 using VirtoCommerce.Platform.Data.Infrastructure;
 using VirtoCommerce.Platform.Data.Infrastructure.Interceptors;
 
@@ -62,6 +65,10 @@ namespace VirtoCommerce.CacheModule.Web
             RegisterPricingServicesDecorators(cacheManagerAdaptor);
 
             RegisterChangesTrackingService();
+
+            var eventHandlerRegistrar = _container.Resolve<IHandlerRegistrar>();
+            //Clear Members cache region in response to a security account changes 
+            eventHandlerRegistrar.RegisterHandler<UserChangedEvent>(async (message, token) => await _container.Resolve<ResetMembersCacheSecurityEventHandler>().Handle(message));
         }
 
         private void RegisterChangesTrackingService()
