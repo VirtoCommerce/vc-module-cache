@@ -1,4 +1,4 @@
-﻿using VirtoCommerce.CacheModule.Data.Extensions;
+using VirtoCommerce.CacheModule.Data.Extensions;
 using VirtoCommerce.Domain.Commerce.Model.Search;
 using VirtoCommerce.Domain.Marketing.Model;
 using VirtoCommerce.Domain.Marketing.Model.Promotions.Search;
@@ -113,7 +113,7 @@ namespace VirtoCommerce.CacheModule.Data.Decorators
         #region IPromotionSearchService Members
         public GenericSearchResult<Promotion> SearchPromotions(PromotionSearchCriteria criteria)
         {
-            var cacheKey = GetCacheKey("IPromotionSearchService.SearchPromotions", criteria.ToJson().GetHashCode().ToString());
+            var cacheKey = GetCacheKey("IPromotionSearchService.SearchPromotions", criteria.GetCacheKey());
             var retVal = _cacheManager.Get(cacheKey, RegionName, () => _promoSearchService.SearchPromotions(criteria));
             return retVal;
         }
@@ -144,7 +144,7 @@ namespace VirtoCommerce.CacheModule.Data.Decorators
         #region ICouponService Members
         public GenericSearchResult<Coupon> SearchCoupons(CouponSearchCriteria criteria)
         {
-            var cacheKey = GetCacheKey("ICouponService.SearchCoupons", criteria.ToJson().GetHashCode().ToString());
+            var cacheKey = GetCacheKey("ICouponService.SearchCoupons", criteria.GetCacheKey());
             var retVal = _cacheManager.Get(cacheKey, RegionName, () => _couponService.SearchCoupons(criteria));
             return retVal;
         }
