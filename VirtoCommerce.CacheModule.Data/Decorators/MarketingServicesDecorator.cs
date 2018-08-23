@@ -1,4 +1,3 @@
-using VirtoCommerce.CacheModule.Data.Extensions;
 using VirtoCommerce.Domain.Commerce.Model.Search;
 using VirtoCommerce.Domain.Marketing.Model;
 using VirtoCommerce.Domain.Marketing.Model.Promotions.Search;
@@ -173,7 +172,5 @@ namespace VirtoCommerce.CacheModule.Data.Decorators
         {
             return "Marketing-" + string.Join(", ", parameters).GetHashCode();
         }
-
-       
     }
 }

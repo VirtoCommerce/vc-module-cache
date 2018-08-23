@@ -1,4 +1,3 @@
-using VirtoCommerce.CacheModule.Data.Extensions;
 using VirtoCommerce.Domain.Commerce.Model.Search;
 using VirtoCommerce.Domain.Customer.Model;
 using VirtoCommerce.Domain.Customer.Services;
