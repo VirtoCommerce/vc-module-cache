@@ -1,7 +1,5 @@
-﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using VirtoCommerce.CacheModule.Data.Extensions;
 using VirtoCommerce.Domain.Catalog.Model;
 using VirtoCommerce.Domain.Catalog.Services;
 
@@ -78,7 +76,7 @@ namespace VirtoCommerce.CacheModule.Data.Decorators
         #region ICatalogSearchService members
         public SearchResult Search(SearchCriteria criteria)
         {
-            var cacheKey = GetCacheKey("CatalogSearchService.Search", criteria.ToJson().GetHashCode().ToString());
+            var cacheKey = GetCacheKey("CatalogSearchService.Search", criteria.GetCacheKey());
             var retVal = _cacheManager.Get(cacheKey, RegionName, () => _searchService.Search(criteria));
             return retVal;
         }
