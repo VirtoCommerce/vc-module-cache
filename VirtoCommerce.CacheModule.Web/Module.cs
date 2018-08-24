@@ -122,8 +122,9 @@ namespace VirtoCommerce.CacheModule.Web
         {
             if (_container.IsRegistered<IInventoryService>())
             {
-                var inventoryServicesDecorator = new InventoryServicesDecorator(_container.Resolve<IInventoryService>(), cacheManagerAdaptor);
+                var inventoryServicesDecorator = new InventoryServicesDecorator(_container.Resolve<IInventoryService>(), _container.Resolve<IInventorySearchService>(), cacheManagerAdaptor);
                 _container.RegisterInstance<IInventoryService>(inventoryServicesDecorator);
+                _container.RegisterInstance<IInventorySearchService>(inventoryServicesDecorator);
             }
         }
 

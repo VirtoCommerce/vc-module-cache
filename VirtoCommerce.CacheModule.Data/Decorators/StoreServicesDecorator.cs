@@ -70,10 +70,10 @@ namespace VirtoCommerce.CacheModule.Data.Decorators
             ClearCache();
         }
         #endregion
-        
+
         private static string GetCacheKey(params string[] parameters)
         {
-            return "Store-" + string.Join(", ", parameters).GetHashCode();
+            return "Store-" + string.Join(", ", parameters);
         }
     }
 }

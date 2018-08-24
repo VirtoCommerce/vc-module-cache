@@ -58,7 +58,7 @@ namespace VirtoCommerce.CacheModule.Data.Decorators
 
         private static string GetCacheKey(params string[] parameters)
         {
-            return "Member-" + string.Join(", ", parameters).GetHashCode();
+            return "Member-" + string.Join(", ", parameters);
         }
     }
 }

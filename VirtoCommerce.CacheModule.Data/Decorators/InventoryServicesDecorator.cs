@@ -1,18 +1,22 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using VirtoCommerce.Domain.Commerce.Model.Search;
 using VirtoCommerce.Domain.Inventory.Model;
+using VirtoCommerce.Domain.Inventory.Model.Search;
 using VirtoCommerce.Domain.Inventory.Services;
 
 namespace VirtoCommerce.CacheModule.Data.Decorators
 {
-    public sealed class InventoryServicesDecorator : ICachedServiceDecorator, IInventoryService
+    public sealed class InventoryServicesDecorator : ICachedServiceDecorator, IInventoryService, IInventorySearchService
     {
         private readonly CacheManagerAdaptor _cacheManager;
         private readonly IInventoryService _inventoryService;
+        private readonly IInventorySearchService _inventorySearchService;
         public const string RegionName = "Inventory-Cache-Region";
 
-        public InventoryServicesDecorator(IInventoryService inventoryService, CacheManagerAdaptor cacheManager)
+        public InventoryServicesDecorator(IInventoryService inventoryService, IInventorySearchService inventorySearchService, CacheManagerAdaptor cacheManager)
         {
             _inventoryService = inventoryService;
+            _inventorySearchService = inventorySearchService;
             _cacheManager = cacheManager;
         }
 
@@ -23,11 +27,21 @@ namespace VirtoCommerce.CacheModule.Data.Decorators
         }
         #endregion
 
-        #region IStoreService Members
+
+        #region IInventorySearchService Members
+        public GenericSearchResult<InventoryInfo> SearchInventories(InventorySearchCriteria criteria)
+        {
+            var cacheKey = GetCacheKey("IInventorySearchService.SearchInventories", criteria.GetCacheKey());
+            var retVal = _cacheManager.Get(cacheKey, RegionName, () => _inventorySearchService.SearchInventories(criteria));
+            return retVal;
+        }
+        #endregion
+
+        #region IInventoryService Members
         public IEnumerable<InventoryInfo> GetAllInventoryInfos()
         {
             var cacheKey = GetCacheKey("InventoryService.GetAllInventoryInfos");
-            var retVal = _cacheManager.Get(cacheKey, RegionName, () => _inventoryService.GetAllInventoryInfos());
+            var retVal = _cacheManager.Get(cacheKey, RegionName, () => _inventorySearchService.SearchInventories(new Domain.Inventory.Model.Search.InventorySearchCriteria { Take = int.MaxValue }).Results);
             return retVal;
         }
 
@@ -54,7 +68,8 @@ namespace VirtoCommerce.CacheModule.Data.Decorators
 
         private static string GetCacheKey(params string[] parameters)
         {
-            return "Inventory-" + string.Join(", ", parameters).GetHashCode();
+            return "Inventory-" + string.Join(", ", parameters);
         }
+
     }
 }

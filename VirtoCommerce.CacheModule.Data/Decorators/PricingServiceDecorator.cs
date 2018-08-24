@@ -95,9 +95,9 @@ namespace VirtoCommerce.CacheModule.Data.Decorators
 
         private static string GetCacheKey(params string[] parameters)
         {
-            return "Pricing-" + string.Join(", ", parameters).GetHashCode();
+            return "Pricing-" + string.Join(", ", parameters);
         }
 
-   
+
     }
 }

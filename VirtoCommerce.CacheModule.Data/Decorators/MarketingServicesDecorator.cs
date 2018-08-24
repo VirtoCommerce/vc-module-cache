@@ -170,7 +170,7 @@ namespace VirtoCommerce.CacheModule.Data.Decorators
 
         private static string GetCacheKey(params string[] parameters)
         {
-            return "Marketing-" + string.Join(", ", parameters).GetHashCode();
+            return "Marketing-" + string.Join(", ", parameters);
         }
     }
 }
