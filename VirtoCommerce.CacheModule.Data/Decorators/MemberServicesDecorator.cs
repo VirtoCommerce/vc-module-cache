@@ -41,7 +41,7 @@ namespace VirtoCommerce.CacheModule.Data.Decorators
 
         public Member[] GetByIds(string[] memberIds, string responseGroup = null, string[] memberTypes = null)
         {
-            var cacheKey = GetCacheKey("MemberService.GetByIds", string.Join(", ", memberIds), memberTypes.IsNullOrEmpty() ? "" : string.Join(", ", memberTypes));
+            var cacheKey = GetCacheKey("MemberService.GetByIds", string.Join(", ", memberIds), memberTypes.IsNullOrEmpty() ? "" : string.Join(", ", memberTypes), responseGroup ?? "Full");
             var retVal = _cacheManager.Get(cacheKey, RegionName, () => _memberService.GetByIds(memberIds, responseGroup, memberTypes));
             return retVal;
         }
