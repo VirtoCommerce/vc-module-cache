@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using VirtoCommerce.Domain.Pricing.Model;
+using VirtoCommerce.Domain.Pricing.Model.Search;
 using VirtoCommerce.Domain.Pricing.Services;
 
 namespace VirtoCommerce.CacheModule.Data.Decorators
@@ -78,6 +79,12 @@ namespace VirtoCommerce.CacheModule.Data.Decorators
         public void DeletePricelistsAssignments(string[] ids)
         {
             _pricingService.DeletePricelistsAssignments(ids);
+            ClearCache();
+        }
+
+        public void DeletePricelistsAssignmentsByFilter(PricelistAssignmentsSearchCriteria criteria)
+        {
+            _pricingService.DeletePricelistsAssignmentsByFilter(criteria);
             ClearCache();
         }
 
