@@ -1,9 +1,11 @@
 using System;
 using System.Linq;
 using CacheManager.Core;
+using CacheManager.Core.Internal;
 using Common.Logging;
 using Microsoft.Practices.Unity;
 using VirtoCommerce.CacheModule.Data.Decorators;
+using VirtoCommerce.CacheModule.Data.Extensions;
 using VirtoCommerce.CacheModule.Data.Handlers;
 using VirtoCommerce.CacheModule.Data.Repositories;
 using VirtoCommerce.CacheModule.Data.Services;
@@ -91,7 +93,7 @@ namespace VirtoCommerce.CacheModule.Web
 
             //Need observe cache events to correct update latest changes timestamp when platform running on multiple instances
             //Cache clean event will be raising  thanks to Redis cache synced invalidation
-            cacheManager.OnClear += (e, args) =>
+            EventHandler<CacheClearEventArgs> onClearHandler = (sender, args) =>
             {
                 try
                 {
@@ -102,7 +104,8 @@ namespace VirtoCommerce.CacheModule.Web
                     logger.Error(ex);
                 }
             };
-            cacheManager.OnClearRegion += (e, args) =>
+
+            EventHandler<CacheClearRegionEventArgs> onClearRegionHandler = (sender, args) =>
             {
                 if (args.Region != null && observedRegions.Any(x => x.EqualsInvariant(args.Region)))
                 {
@@ -116,6 +119,10 @@ namespace VirtoCommerce.CacheModule.Web
                     }
                 }
             };
+            //Throttling is required to prevent frequent database updates operations. 10 seconds is set as minimum interval to prevent flooding of database when multiple
+            //platform instances is running
+            cacheManager.OnClearRegion += onClearRegionHandler.Throttle(TimeSpan.FromSeconds(10));
+            cacheManager.OnClear += onClearHandler.Throttle(TimeSpan.FromSeconds(10));
         }
 
         private void RegisterInventoryServicesDecorators(CacheManagerAdaptor cacheManagerAdaptor)

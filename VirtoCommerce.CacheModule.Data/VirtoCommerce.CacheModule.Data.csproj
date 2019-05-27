@@ -82,6 +82,7 @@
     </Compile>
     <Compile Include="Decorators\PricingServiceDecorator.cs" />
     <Compile Include="Decorators\InventoryServicesDecorator.cs" />
+    <Compile Include="Extensions\EventThrottlingExtension.cs" />
     <Compile Include="Handlers\ResetMembersCacheSecurityEventHandler.cs" />
     <Compile Include="Migrations\201705030749284_Initial.cs" />
     <Compile Include="Migrations\201705030749284_Initial.Designer.cs">
@@ -105,7 +106,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="VirtoCommerce.CacheModule.Data.nuspec" />
   </ItemGroup>
   <ItemGroup>
